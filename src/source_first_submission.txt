@@ -48,10 +48,11 @@ COVID_cases_over_population.show()
 # Vaccination Over Population size
 
 
-df_of_selected_countries['Total_Vaccination_Percentage'] = df_of_selected_countries['total_vaccinations']/df_of_selected_countries['population']
-
-Vaccination_over_population = px.line(df_of_selected_countries, x= "date", y= "Total_Vaccination_Percentage", color="location", title = 'Vaccination')
-Vaccination_over_population.show()
-
+df_result = df_of_selected_countries['Total_Vaccination_Percentage']
+filter_in = df_of_selected_countries['Total_Vaccination_Percentage'].fillna(method = 'bfill')
+result = savgol_filter(np.array(filter_in), 5, 1)
+df_of_selected_countries['total_vaccination_mean_filtered'] = result
+vaccination_plot_1 = px.line(df_of_selected_countries, x="date", y= "total_vaccination_mean_filtered", color = "location", title = 'vaccination rate')
+vaccination_plot_1.show()
 
 
